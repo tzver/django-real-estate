@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Listing
 from .forms import ListingForm
 
@@ -32,8 +32,42 @@ def listing_retrieve(request, pk):
 
 
 def listing_create(request):
-    form = ListingForm() #create a new ListingForm (empty form)
+    form = ListingForm() #create a new ListingForm (empty form) -> only creating, not yet
+    if request.method == "POST":
+        form = ListingForm(request.POST) #populating the form with request data
+        # can displayt the error messages
+        print(request.POST)
+        if form.is_valid():
+            # TODO -> need to create a listing with all the data
+            form.save() # -> saving all the data in the DB as a new listing
+            return redirect("/listings")
+
     context = {
         "form": form
     }
-    return render(request, "listing_create.html", context)
+    return render(request, "listing_create.html", context)# don't want to continue otherwise will return an empty form submitting! -> have to handle that as well -> GET request; if submit, define the type of request
+
+
+def listing_update(request, pk): #fetch specific listing -> like we did in detailed view
+    listing = Listing.objects.get(id=pk)
+    form = ListingForm(instance=listing) # instance important for django to know what listing we are updating!
+
+    if request.method == "POST":
+        form = ListingForm(request.POST) #populating the form with request data
+        # can displayt the error messages
+        print(request.POST)
+        if form.is_valid():
+            form.save() # -> saving all the data in the DB as a new listing
+            return redirect("/listings")
+
+    context = {
+        "form": form
+    }
+    return render(request, "listing_update.html", context)# don't want to continue otherwise will return an empty form submitting! -> have to handle that as well -> GET request; if submit, define the type of request
+
+def listing_delete(request, pk): #fetch specific listing -> like we did in detailed view
+    listing = Listing.objects.get(id=pk)
+    listing.delete()
+    return redirect("/listings")
+
+

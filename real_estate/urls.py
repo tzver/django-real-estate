@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from listings.views import listing_list, listing_retrieve
+from listings.views import listing_list, listing_retrieve, listing_create, listing_update, listing_delete
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('listings/', listing_list), # can create new urls here -> put listings/ and you can have this view in that URL
-    path('listings/<pk>/', listing_retrieve) #pk = primary key -> id -> <pk> is a smart url 
+    path('listings/<pk>/', listing_retrieve), #pk = primary key -> id -> <pk> is a smart url 
+    path('add-listing', listing_create),
+    path('listings/<pk>/edit/', listing_update),
+    path('listings/<pk>/delete/', listing_delete)
 ]
