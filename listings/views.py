@@ -34,8 +34,8 @@ def listing_retrieve(request, pk):
 def listing_create(request):
     form = ListingForm() #create a new ListingForm (empty form) -> only creating, not yet
     if request.method == "POST":
-        form = ListingForm(request.POST) #populating the form with request data
-        # can displayt the error messages
+        form = ListingForm(request.POST, request.FILES) #populating the form with request data
+        # can displayt the error messages -> FILES -> for images!
         print(request.POST)
         if form.is_valid():
             # TODO -> need to create a listing with all the data
@@ -53,7 +53,7 @@ def listing_update(request, pk): #fetch specific listing -> like we did in detai
     form = ListingForm(instance=listing) # instance important for django to know what listing we are updating!
 
     if request.method == "POST":
-        form = ListingForm(request.POST) #populating the form with request data
+        form = ListingForm(request.POST, instance = listing, files = request.FILES) #populating the form with request data
         # can displayt the error messages
         print(request.POST)
         if form.is_valid():

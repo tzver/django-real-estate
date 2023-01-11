@@ -10,5 +10,5 @@ class ListingForm(ModelForm):
                     "num_bedrooms", 
                     "num_bathrooms", 
                     "square_footage", 
-                    "address"]#list of field names you want on the form
+                    "address", "image"]#list of field names you want on the form
         
