@@ -12,3 +12,8 @@ class Listing(models.Model): #inheritance -> class interpreted as a DB table
     # image -> more complicated
 
 
+    def __str__(self):
+        # Rename object from Listing object (1) to the title (in the app)
+        return self.title
+
+
